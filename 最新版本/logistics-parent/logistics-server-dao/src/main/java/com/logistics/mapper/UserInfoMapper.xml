@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logistics.mapper.UserInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.logistics.pojo.UserInfo" >
+    <id column="user_info_id" property="userInfoId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="manager_id" property="managerId" jdbcType="VARCHAR" />
+    <result column="join_date" property="joinDate" jdbcType="TIMESTAMP" />
+    <result column="salary" property="salary" jdbcType="DOUBLE" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="gender" property="gender" jdbcType="CHAR" />
+    <result column="station" property="station" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="degree" property="degree" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="order_no" property="orderNo" jdbcType="INTEGER" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_dept" property="createDept" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    user_info_id, name, manager_id, join_date, salary, birthday, gender, station, telephone, 
+    degree, remark, order_no, create_by, create_dept, create_time, update_by, update_time, 
+    email
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.logistics.pojo.UserInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where user_info_id = #{userInfoId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user_info
+    where user_info_id = #{userInfoId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.logistics.pojo.UserInfoExample" >
+    delete from user_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.logistics.pojo.UserInfo" >
+    insert into user_info (user_info_id, name, manager_id, 
+      join_date, salary, birthday, 
+      gender, station, telephone, 
+      degree, remark, order_no, 
+      create_by, create_dept, create_time, 
+      update_by, update_time, email
+      )
+    values (#{userInfoId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{managerId,jdbcType=VARCHAR}, 
+      #{joinDate,jdbcType=TIMESTAMP}, #{salary,jdbcType=DOUBLE}, #{birthday,jdbcType=TIMESTAMP}, 
+      #{gender,jdbcType=CHAR}, #{station,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
+      #{degree,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{orderNo,jdbcType=INTEGER}, 
+      #{createBy,jdbcType=VARCHAR}, #{createDept,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{email,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.logistics.pojo.UserInfo" >
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userInfoId != null" >
+        user_info_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="managerId != null" >
+        manager_id,
+      </if>
+      <if test="joinDate != null" >
+        join_date,
+      </if>
+      <if test="salary != null" >
+        salary,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="station != null" >
+        station,
+      </if>
+      <if test="telephone != null" >
+        telephone,
+      </if>
+      <if test="degree != null" >
+        degree,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createDept != null" >
+        create_dept,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userInfoId != null" >
+        #{userInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="managerId != null" >
+        #{managerId,jdbcType=VARCHAR},
+      </if>
+      <if test="joinDate != null" >
+        #{joinDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="salary != null" >
+        #{salary,jdbcType=DOUBLE},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=CHAR},
+      </if>
+      <if test="station != null" >
+        #{station,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null" >
+        #{degree,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDept != null" >
+        #{createDept,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.logistics.pojo.UserInfoExample" resultType="java.lang.Integer" >
+    select count(*) from user_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_info
+    <set >
+      <if test="record.userInfoId != null" >
+        user_info_id = #{record.userInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerId != null" >
+        manager_id = #{record.managerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.joinDate != null" >
+        join_date = #{record.joinDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.salary != null" >
+        salary = #{record.salary,jdbcType=DOUBLE},
+      </if>
+      <if test="record.birthday != null" >
+        birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gender != null" >
+        gender = #{record.gender,jdbcType=CHAR},
+      </if>
+      <if test="record.station != null" >
+        station = #{record.station,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telephone != null" >
+        telephone = #{record.telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.degree != null" >
+        degree = #{record.degree,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNo != null" >
+        order_no = #{record.orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.createBy != null" >
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDept != null" >
+        create_dept = #{record.createDept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null" >
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_info
+    set user_info_id = #{record.userInfoId,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      manager_id = #{record.managerId,jdbcType=VARCHAR},
+      join_date = #{record.joinDate,jdbcType=TIMESTAMP},
+      salary = #{record.salary,jdbcType=DOUBLE},
+      birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      gender = #{record.gender,jdbcType=CHAR},
+      station = #{record.station,jdbcType=VARCHAR},
+      telephone = #{record.telephone,jdbcType=VARCHAR},
+      degree = #{record.degree,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=INTEGER},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_dept = #{record.createDept,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      email = #{record.email,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.logistics.pojo.UserInfo" >
+    update user_info
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="managerId != null" >
+        manager_id = #{managerId,jdbcType=VARCHAR},
+      </if>
+      <if test="joinDate != null" >
+        join_date = #{joinDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="salary != null" >
+        salary = #{salary,jdbcType=DOUBLE},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=CHAR},
+      </if>
+      <if test="station != null" >
+        station = #{station,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null" >
+        degree = #{degree,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDept != null" >
+        create_dept = #{createDept,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_info_id = #{userInfoId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.logistics.pojo.UserInfo" >
+    update user_info
+    set name = #{name,jdbcType=VARCHAR},
+      manager_id = #{managerId,jdbcType=VARCHAR},
+      join_date = #{joinDate,jdbcType=TIMESTAMP},
+      salary = #{salary,jdbcType=DOUBLE},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      gender = #{gender,jdbcType=CHAR},
+      station = #{station,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      degree = #{degree,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_dept = #{createDept,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      email = #{email,jdbcType=VARCHAR}
+    where user_info_id = #{userInfoId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logistics.mapper.ContractProductMapper" >
+  <resultMap id="BaseResultMap" type="com.logistics.pojo.ContractProduct" >
+    <id column="contract_product_id" property="contractProductId" jdbcType="VARCHAR" />
+    <result column="contract_id" property="contractId" jdbcType="VARCHAR" />
+    <result column="factory_id" property="factoryId" jdbcType="VARCHAR" />
+    <result column="factory_name" property="factoryName" jdbcType="VARCHAR" />
+    <result column="product_no" property="productNo" jdbcType="VARCHAR" />
+    <result column="product_image" property="productImage" jdbcType="VARCHAR" />
+    <result column="product_desc" property="productDesc" jdbcType="VARCHAR" />
+    <result column="loading_rate" property="loadingRate" jdbcType="VARCHAR" />
+    <result column="box_num" property="boxNum" jdbcType="BIGINT" />
+    <result column="packing_unit" property="packingUnit" jdbcType="VARCHAR" />
+    <result column="cnumber" property="cnumber" jdbcType="BIGINT" />
+    <result column="out_number" property="outNumber" jdbcType="BIGINT" />
+    <result column="finished" property="finished" jdbcType="INTEGER" />
+    <result column="product_request" property="productRequest" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="amount" property="amount" jdbcType="BIGINT" />
+    <result column="order_no" property="orderNo" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    contract_product_id, contract_id, factory_id, factory_name, product_no, product_image, 
+    product_desc, loading_rate, box_num, packing_unit, cnumber, out_number, finished, 
+    product_request, price, amount, order_no
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.logistics.pojo.ContractProductExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from contract_product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from contract_product
+    where contract_product_id = #{contractProductId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from contract_product
+    where contract_product_id = #{contractProductId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.logistics.pojo.ContractProductExample" >
+    delete from contract_product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.logistics.pojo.ContractProduct" >
+    insert into contract_product (contract_product_id, contract_id, factory_id, 
+      factory_name, product_no, product_image, 
+      product_desc, loading_rate, box_num, 
+      packing_unit, cnumber, out_number, 
+      finished, product_request, price, 
+      amount, order_no)
+    values (#{contractProductId,jdbcType=VARCHAR}, #{contractId,jdbcType=VARCHAR}, #{factoryId,jdbcType=VARCHAR}, 
+      #{factoryName,jdbcType=VARCHAR}, #{productNo,jdbcType=VARCHAR}, #{productImage,jdbcType=VARCHAR}, 
+      #{productDesc,jdbcType=VARCHAR}, #{loadingRate,jdbcType=VARCHAR}, #{boxNum,jdbcType=BIGINT}, 
+      #{packingUnit,jdbcType=VARCHAR}, #{cnumber,jdbcType=BIGINT}, #{outNumber,jdbcType=BIGINT}, 
+      #{finished,jdbcType=INTEGER}, #{productRequest,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
+      #{amount,jdbcType=BIGINT}, #{orderNo,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.logistics.pojo.ContractProduct" >
+    insert into contract_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="contractProductId != null" >
+        contract_product_id,
+      </if>
+      <if test="contractId != null" >
+        contract_id,
+      </if>
+      <if test="factoryId != null" >
+        factory_id,
+      </if>
+      <if test="factoryName != null" >
+        factory_name,
+      </if>
+      <if test="productNo != null" >
+        product_no,
+      </if>
+      <if test="productImage != null" >
+        product_image,
+      </if>
+      <if test="productDesc != null" >
+        product_desc,
+      </if>
+      <if test="loadingRate != null" >
+        loading_rate,
+      </if>
+      <if test="boxNum != null" >
+        box_num,
+      </if>
+      <if test="packingUnit != null" >
+        packing_unit,
+      </if>
+      <if test="cnumber != null" >
+        cnumber,
+      </if>
+      <if test="outNumber != null" >
+        out_number,
+      </if>
+      <if test="finished != null" >
+        finished,
+      </if>
+      <if test="productRequest != null" >
+        product_request,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="contractProductId != null" >
+        #{contractProductId,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null" >
+        #{contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryId != null" >
+        #{factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryName != null" >
+        #{factoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="productNo != null" >
+        #{productNo,jdbcType=VARCHAR},
+      </if>
+      <if test="productImage != null" >
+        #{productImage,jdbcType=VARCHAR},
+      </if>
+      <if test="productDesc != null" >
+        #{productDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="loadingRate != null" >
+        #{loadingRate,jdbcType=VARCHAR},
+      </if>
+      <if test="boxNum != null" >
+        #{boxNum,jdbcType=BIGINT},
+      </if>
+      <if test="packingUnit != null" >
+        #{packingUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="cnumber != null" >
+        #{cnumber,jdbcType=BIGINT},
+      </if>
+      <if test="outNumber != null" >
+        #{outNumber,jdbcType=BIGINT},
+      </if>
+      <if test="finished != null" >
+        #{finished,jdbcType=INTEGER},
+      </if>
+      <if test="productRequest != null" >
+        #{productRequest,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.logistics.pojo.ContractProductExample" resultType="java.lang.Integer" >
+    select count(*) from contract_product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update contract_product
+    <set >
+      <if test="record.contractProductId != null" >
+        contract_product_id = #{record.contractProductId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractId != null" >
+        contract_id = #{record.contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.factoryId != null" >
+        factory_id = #{record.factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.factoryName != null" >
+        factory_name = #{record.factoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productNo != null" >
+        product_no = #{record.productNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productImage != null" >
+        product_image = #{record.productImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productDesc != null" >
+        product_desc = #{record.productDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loadingRate != null" >
+        loading_rate = #{record.loadingRate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.boxNum != null" >
+        box_num = #{record.boxNum,jdbcType=BIGINT},
+      </if>
+      <if test="record.packingUnit != null" >
+        packing_unit = #{record.packingUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cnumber != null" >
+        cnumber = #{record.cnumber,jdbcType=BIGINT},
+      </if>
+      <if test="record.outNumber != null" >
+        out_number = #{record.outNumber,jdbcType=BIGINT},
+      </if>
+      <if test="record.finished != null" >
+        finished = #{record.finished,jdbcType=INTEGER},
+      </if>
+      <if test="record.productRequest != null" >
+        product_request = #{record.productRequest,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.amount != null" >
+        amount = #{record.amount,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderNo != null" >
+        order_no = #{record.orderNo,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update contract_product
+    set contract_product_id = #{record.contractProductId,jdbcType=VARCHAR},
+      contract_id = #{record.contractId,jdbcType=VARCHAR},
+      factory_id = #{record.factoryId,jdbcType=VARCHAR},
+      factory_name = #{record.factoryName,jdbcType=VARCHAR},
+      product_no = #{record.productNo,jdbcType=VARCHAR},
+      product_image = #{record.productImage,jdbcType=VARCHAR},
+      product_desc = #{record.productDesc,jdbcType=VARCHAR},
+      loading_rate = #{record.loadingRate,jdbcType=VARCHAR},
+      box_num = #{record.boxNum,jdbcType=BIGINT},
+      packing_unit = #{record.packingUnit,jdbcType=VARCHAR},
+      cnumber = #{record.cnumber,jdbcType=BIGINT},
+      out_number = #{record.outNumber,jdbcType=BIGINT},
+      finished = #{record.finished,jdbcType=INTEGER},
+      product_request = #{record.productRequest,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DOUBLE},
+      amount = #{record.amount,jdbcType=BIGINT},
+      order_no = #{record.orderNo,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.logistics.pojo.ContractProduct" >
+    update contract_product
+    <set >
+      <if test="contractId != null" >
+        contract_id = #{contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryId != null" >
+        factory_id = #{factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryName != null" >
+        factory_name = #{factoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="productNo != null" >
+        product_no = #{productNo,jdbcType=VARCHAR},
+      </if>
+      <if test="productImage != null" >
+        product_image = #{productImage,jdbcType=VARCHAR},
+      </if>
+      <if test="productDesc != null" >
+        product_desc = #{productDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="loadingRate != null" >
+        loading_rate = #{loadingRate,jdbcType=VARCHAR},
+      </if>
+      <if test="boxNum != null" >
+        box_num = #{boxNum,jdbcType=BIGINT},
+      </if>
+      <if test="packingUnit != null" >
+        packing_unit = #{packingUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="cnumber != null" >
+        cnumber = #{cnumber,jdbcType=BIGINT},
+      </if>
+      <if test="outNumber != null" >
+        out_number = #{outNumber,jdbcType=BIGINT},
+      </if>
+      <if test="finished != null" >
+        finished = #{finished,jdbcType=INTEGER},
+      </if>
+      <if test="productRequest != null" >
+        product_request = #{productRequest,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=INTEGER},
+      </if>
+    </set>
+    where contract_product_id = #{contractProductId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.logistics.pojo.ContractProduct" >
+    update contract_product
+    set contract_id = #{contractId,jdbcType=VARCHAR},
+      factory_id = #{factoryId,jdbcType=VARCHAR},
+      factory_name = #{factoryName,jdbcType=VARCHAR},
+      product_no = #{productNo,jdbcType=VARCHAR},
+      product_image = #{productImage,jdbcType=VARCHAR},
+      product_desc = #{productDesc,jdbcType=VARCHAR},
+      loading_rate = #{loadingRate,jdbcType=VARCHAR},
+      box_num = #{boxNum,jdbcType=BIGINT},
+      packing_unit = #{packingUnit,jdbcType=VARCHAR},
+      cnumber = #{cnumber,jdbcType=BIGINT},
+      out_number = #{outNumber,jdbcType=BIGINT},
+      finished = #{finished,jdbcType=INTEGER},
+      product_request = #{productRequest,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      amount = #{amount,jdbcType=BIGINT},
+      order_no = #{orderNo,jdbcType=INTEGER}
+    where contract_product_id = #{contractProductId,jdbcType=VARCHAR}
+  </update>
+</mapper>

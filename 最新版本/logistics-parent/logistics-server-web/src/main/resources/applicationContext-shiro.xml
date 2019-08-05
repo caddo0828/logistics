@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- 配置自定义的Realm -->
+	<bean id="userRealm" class="com.logistics.realm.UserRealm">
+		<!-- 在自定义的realm中进行密码匹配器的注入 -->
+		<property name="credentialsMatcher" ref="credentialsMatcher"></property> 
+	</bean>
+	
+	
+	<!-- 配置shiro的凭证匹配器 -->
+	<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+		<!-- 表示使用的是MD5加密算法 -->
+		<property name="hashAlgorithmName" value="md5"></property>
+		<!-- 代表加密算法迭代的次数 -->
+		<property name="hashIterations" value="2"></property>
+	</bean>
+	
+	<!-- 配置shiro的核心SecurityManager（安全管理器）,web的实现类 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<!-- 加载默认的配置
+			1、配置自定义的Realm-->
+		<property name="realm" ref="userRealm"></property>
+	    <property name="cacheManager" ref="cacheManager"></property>
+	</bean>
+	
+	<!-- 配置Shiro的缓存管理器 -->
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+	   <!--代表扫描本地自定义的ehcache配置文件，如果没有自定义的cache文件可以不写，直接走Shiro中默认的配置文件 -->	
+		<property name="cacheManagerConfigFile" value="classpath:ehcache.xml"></property>
+	</bean> 
+
+	<!-- Spring整合shiro使用的类(安全认证过滤器)
+		1、注意此处的id与web.xml中配置的filter-name属性值一致
+		2、必须在该类中配置securityManager
+	 -->  
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- 配置安全管理器 -->
+		<property name="securityManager" ref="securityManager"></property>
+		<!-- 登录url,如果不配置该属性则默认找的是根路径下的login.jsp文件 -->
+		<property name="loginUrl" value="/index.jsp"></property>
+		<!-- 配置成功后跳转到哪个界面，通过不设置，那么默认在认证成功后，跳转到上一个url(就是之前请求的url) -->
+		<property name="successUrl" value=""></property> 
+		<!-- 配置用户在没有权限时，跳转的页面 -->
+		<property name="unauthorizedUrl" value="/index2.jsp"></property>
+		
+		<!-- 配置shiro的过滤器链 -->
+		<property name="filterChainDefinitions">
+			<value>
+			    <!-- 可以实现匿名访问 -->
+				/index.jsp* = anon
+				/index2.jsp* = anon
+				/home* = anon
+				<!-- 允许访问login登录页面 -->
+				/sysadmin/login/login* = anon
+				/sysadmin/login/login.jsp* = anon
+				/sysadmin/login/loginAction_logout* = anon
+				<!-- 允许进行登录验证 -->
+				/login* = anon
+				/logout* = anon
+				/components/** = anon
+				/css/** = anon
+				/img/** = anon
+				/plugins/** = anon
+				/images/** = anon
+				/js/** = anon
+				/make/** = anon
+				/skin/** = anon
+				/stat/** = anon
+				/ufiles/** = anon
+				/validator/** = anon
+				/resource/** = anon
+				<!-- 所有的请求都需要验证用户身份 
+					范围大的一定要放在下面，否则直接匹配完了大的以后，小范围也一起屏蔽了
+				-->
+				/** = authc
+				/*.* = authc
+			</value>
+		</property>
+	</bean>	
+
+	<!-- 为了让shiro中获取的权限在注解中有效，开启aop代理 使用cglib动态代理-->
+	<aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
+
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+	<!-- 实现aop代理的配置，找到所有的bean配置类，转成自动代理模式，使用代理控制Shiro中的执行操作-->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+	
+	<!-- 配置对应的shiro权限注解支持 -->
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager"></property>
+	</bean>
+
+</beans>

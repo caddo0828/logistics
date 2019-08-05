@@ -1,0 +1,7 @@
+com\logistics\controller\sysadmin\RoleController.class
+com\logistics\realm\UserRealm.class
+com\logistics\controller\sysadmin\DeptController.class
+com\logistics\controller\LoginController.class
+com\logistics\controller\sysadmin\ModuleController.class
+com\logistics\controller\PageController.class
+com\logistics\controller\sysadmin\UserController.class
