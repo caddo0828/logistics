@@ -22,7 +22,7 @@
 	<pagehelper-version>4.1.6</pagehelper-version>
 	<ftpclient-version>3.3</ftpclient-version>
 	<druid.version>1.0.9</druid.version>
-	<httpclient-version>4.4.1</httpclient-version>
+	<httpclient-version>4.5.13</httpclient-version>
 	<redis-version>0.0.1-SNAPSHOT</redis-version>
     <junit-version>4.12</junit-version> 
   </properties>
