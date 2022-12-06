@@ -20,7 +20,7 @@
 	<jedis-version>2.8.1</jedis-version>
 	<tomcat-version>2.2</tomcat-version>
 	<pagehelper-version>4.1.6</pagehelper-version>
-	<ftpclient-version>3.3</ftpclient-version>
+	<ftpclient-version>3.9.0</ftpclient-version>
 	<druid.version>1.0.9</druid.version>
 	<httpclient-version>4.4.1</httpclient-version>
 	<redis-version>0.0.1-SNAPSHOT</redis-version>
